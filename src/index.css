@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@theme {
+    --breakpoint-xl: 1400px;
+}
+
+:root {
+    --blue-dark: rgb(15 18 20);
+    --light-dark: rgb(21, 23, 27);
+    --dark: rgb(18, 18, 18);
+    --light: rgb(182 190 201);
+    --gray: rgb(81, 81, 81);
+    --blue: rgb(144, 202, 249);
+}
+
+* {
+    box-sizing: border-box;
+}
