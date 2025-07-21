@@ -122,7 +122,7 @@ function App() {
     },
   ];
   return (
-    <div>
+    <div className="max-w-[1400px] mx-auto">
       <h1 className="text-center text-4xl font-bold py-[30px]">
         User data table
       </h1>
