@@ -8,7 +8,7 @@ import { Modal } from "./components/Modal";
 function App() {
   const [users, setUsers] = useState([]);
   const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState("not");
+  const [sortOrder, setSortOrder] = useState(null);
   const [filterField, setFilterField] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -33,8 +33,14 @@ function App() {
     }
 
     fetch(url)
-      .then((response) => response.json())
-      .then((result) => setUsers(result.users));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Ошибка сети: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => setUsers(result.users))
+      .catch((error) => console.error("Ошибка при загрузке данных:", error));
   };
 
   useEffect(() => {
@@ -49,7 +55,7 @@ function App() {
         order = "desc";
       } else if (sortOrder === "desc") {
         sortBy = null;
-        order = "not";
+        order = null;
       }
     } else {
       order = "asc";
