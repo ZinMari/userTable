@@ -4,6 +4,7 @@ import { Tr } from "./components/Tr";
 import { Td } from "./components/Td";
 import { FilterForm } from "./components/FilterForm";
 import { Modal } from "./components/Modal";
+import defineUrl from "./utils/defineUrl";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -14,23 +15,14 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const [idUser, setIdUser] = useState(null);
 
-  const fetchData = (field, order, currentPage, filter, filterValue) => {
-    let url = "https://dummyjson.com/users";
-    const limit = `&limit=5&skip=${currentPage}`;
-
-    if (filter && filterValue) {
-      url += `/filter?key=${filter}&value=${filterValue}${limit}`;
-    } else {
-      url += `?limit=5&skip=${currentPage}`;
-    }
-
-    if (field) {
-      url += `&sortBy=${field}`;
-    }
-
-    if (order) {
-      url += `&order=${order}`;
-    }
+  useEffect(() => {
+    const url = defineUrl(
+      sortField,
+      sortOrder,
+      currentPage,
+      filterField,
+      filterValue
+    );
 
     fetch(url)
       .then((response) => {
@@ -41,10 +33,6 @@ function App() {
       })
       .then((result) => setUsers(result.users))
       .catch((error) => console.error("Ошибка при загрузке данных:", error));
-  };
-
-  useEffect(() => {
-    fetchData(sortField, sortOrder, currentPage, filterField, filterValue);
   }, [sortField, sortOrder, currentPage, filterField, filterValue]);
 
   const handleSort = ({ sortBy }) => {
