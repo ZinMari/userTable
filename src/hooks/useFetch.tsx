@@ -5,14 +5,10 @@ export function useFetch(url: string) {
 
   useEffect(() => {
     fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Ошибка сети: ${response.status}`);
-        }
-        return response.json();
+      .then((res) => {
+        return res.json();
       })
-      .then((result) => setData(result.users))
-      .catch((error) => console.error("Ошибка при загрузке данных:", error));
+      .then((result) => setData(result.users));
   }, []);
 
   return data;
