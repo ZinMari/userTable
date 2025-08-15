@@ -15,20 +15,20 @@ function App() {
   const [filterValue, setFilterValue] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [idUser, setIdUser] = useState(null);
-  const url = defineUrl(
-    sortField,
-    sortOrder,
-    currentPage,
-    filterField,
-    filterValue
-  );
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const url = defineUrl(
+      sortField,
+      sortOrder,
+      currentPage,
+      filterField,
+      filterValue
+    );
+    setUrl(url);
+  }, [sortField, sortOrder, currentPage, filterField, filterValue]);
 
   const [data] = useFetch(url);
-  console.log(data?.users);
-
-  // useEffect(() => {
-  //   setUsers(result.users);
-  // }, [sortField, sortOrder, currentPage, filterField, filterValue]);
 
   const handleSort = ({ sortBy }) => {
     let order;
