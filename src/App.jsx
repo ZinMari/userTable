@@ -5,6 +5,7 @@ import { Td } from "./components/Td";
 import { FilterForm } from "./components/FilterForm";
 import { Modal } from "./components/Modal";
 import defineUrl from "./utils/defineUrl";
+import { useFetch } from "./hooks/useFetch";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -14,26 +15,20 @@ function App() {
   const [filterValue, setFilterValue] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [idUser, setIdUser] = useState(null);
+  const url = defineUrl(
+    sortField,
+    sortOrder,
+    currentPage,
+    filterField,
+    filterValue
+  );
 
-  useEffect(() => {
-    const url = defineUrl(
-      sortField,
-      sortOrder,
-      currentPage,
-      filterField,
-      filterValue
-    );
+  const fetch = useFetch(url);
+  console.log(fetch);
 
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Ошибка сети: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((result) => setUsers(result.users))
-      .catch((error) => console.error("Ошибка при загрузке данных:", error));
-  }, [sortField, sortOrder, currentPage, filterField, filterValue]);
+  // useEffect(() => {
+  //   setUsers(result.users);
+  // }, [sortField, sortOrder, currentPage, filterField, filterValue]);
 
   const handleSort = ({ sortBy }) => {
     let order;
