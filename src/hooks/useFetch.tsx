@@ -6,15 +6,29 @@ export function useFetch(url: string) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // флаг отмены
+    let cancelled = false;
+
     setIsLoading(true);
     setData(null);
     setError(null);
 
     fetch(url)
       .then((res) => res.json())
-      .then((respData) => setData(respData))
-      .catch((e) => setError(e))
-      .finally(() => setIsLoading(false));
+      .then((respData) => {
+        if (!cancelled) setData(respData);
+      })
+      .catch((e) => {
+        if (!cancelled) setError(e);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      // выставим признак того, что запрос отменен
+      cancelled = true;
+    };
   }, [url]);
 
   return [data, isLoading, error];
