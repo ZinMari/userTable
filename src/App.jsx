@@ -23,8 +23,8 @@ function App() {
     filterValue
   );
 
-  const fetch = useFetch(url);
-  console.log(fetch?.users);
+  const [data] = useFetch(url);
+  console.log(data?.users);
 
   // useEffect(() => {
   //   setUsers(result.users);
