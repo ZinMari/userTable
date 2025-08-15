@@ -24,7 +24,7 @@ function App() {
   );
 
   const fetch = useFetch(url);
-  console.log(fetch);
+  console.log(fetch?.users);
 
   // useEffect(() => {
   //   setUsers(result.users);
